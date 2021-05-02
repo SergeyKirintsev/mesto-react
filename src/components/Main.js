@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../utils/api';
+import Card from './Card';
 
 function Main({ onEditProfile, onEditAvatar, onAddPlace }) {
   const [userName, setUserName] = React.useState();
@@ -20,21 +21,7 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace }) {
       });
   });
 
-  const listCards = cards.map((card) => (
-    <li key={card._id} className="elements__element">
-      <button type="button" aria-label="Удалить" className="elements__trash-btn btn-hover" />
-      <div className="elements__img-wrap">
-        <img src={card.link} alt={card.name} className="elements__img" />
-      </div>
-      <div className="elements__description">
-        <h2 className="elements__text block">{card.name}</h2>
-        <div className="elements__like-wrap">
-          <button type="button" aria-label="Нравится" className="elements__like-btn btn-hover" />
-          <span className="elements__like-count">{card.likes.length}</span>
-        </div>
-      </div>
-    </li>
-  ));
+  const listCards = cards.map((card) => <Card key={card._id} card={card} />);
 
   return (
     <main className="content">
