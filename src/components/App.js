@@ -24,6 +24,12 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
+  const closeAllPopups = () => {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  };
+
   return (
     <div className="page">
       <Header />
@@ -38,6 +44,7 @@ function App() {
 
       <PopupWithForm
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
         type={'edit_profile'}
         title={'Редактировать профиль'}
       >
@@ -73,7 +80,12 @@ function App() {
         </section>
       </PopupWithForm>
 
-      <PopupWithForm isOpen={isAddPlacePopupOpen} type={'add_card'} title={'Новое место'}>
+      <PopupWithForm
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        type={'add_card'}
+        title={'Новое место'}
+      >
         <section className="popup__section">
           <input
             id="card-name"
@@ -104,7 +116,12 @@ function App() {
         </section>
       </PopupWithForm>
 
-      <PopupWithForm isOpen={isEditAvatarPopupOpen} type={'avatar'} title={'Обновить аватар'}>
+      <PopupWithForm
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        type={'avatar'}
+        title={'Обновить аватар'}
+      >
         <section className="popup__section">
           <input
             id="card-name"
