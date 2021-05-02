@@ -1,8 +1,19 @@
 function Main(props) {
+  const handleEditAvatarClick = () => {
+    document.querySelector('.popup_avatar').classList.add('popup_is-opened');
+  }
+  const handleEditProfileClick = () => {
+    document.querySelector('.popup_edit_profile').classList.add('popup_is-opened');
+  }
+
+  const handleAddPlaceClick = () => {
+    document.querySelector('.popup_add_card').classList.add('popup_is-opened');
+  }
+
   return (
     <main className="content">
       <section className="profile">
-        <div className="profile__avatar-wrapper">
+        <div onClick={handleEditAvatarClick} className="profile__avatar-wrapper">
           <img className="profile__avatar" src="#" alt="аватар"/>
           <div className="profile__avatar-overlay"></div>
         </div>
@@ -10,6 +21,7 @@ function Main(props) {
           <div className="profile__row">
             <h1 className="profile__name block">Человек с длинным именем</h1>
             <button
+              onClick={handleEditProfileClick}
               type="button"
               aria-label="Редактировать профиль"
               className="profile__edit-btn btn-hover"
@@ -21,6 +33,7 @@ function Main(props) {
         </div>
 
         <button
+          onClick={handleAddPlaceClick}
           type="button"
           aria-label="Добавить карточку"
           className="profile__add-btn btn-hover"
