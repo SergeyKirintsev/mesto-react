@@ -5,18 +5,36 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace }) {
   const [userName, setUserName] = React.useState();
   const [userDescription, setUserDescription] = React.useState();
   const [userAvatar, setUserAvatar] = React.useState();
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([userData, cards]) => {
+      .then(([userData, cardsData]) => {
         setUserName(userData.name);
         setUserDescription(userData.about);
         setUserAvatar(userData.avatar);
+        setCards(cardsData);
       })
       .catch((err) => {
         console.log('Один из промисов отклонен', err);
       });
   });
+
+  const listCards = cards.map((card) => (
+    <li key={card._id} className="elements__element">
+      <button type="button" aria-label="Удалить" className="elements__trash-btn btn-hover" />
+      <div className="elements__img-wrap">
+        <img src={card.link} alt={card.name} className="elements__img" />
+      </div>
+      <div className="elements__description">
+        <h2 className="elements__text block">{card.name}</h2>
+        <div className="elements__like-wrap">
+          <button type="button" aria-label="Нравится" className="elements__like-btn btn-hover" />
+          <span className="elements__like-count">25</span>
+        </div>
+      </div>
+    </li>
+  ));
 
   return (
     <main className="content">
@@ -47,7 +65,7 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace }) {
       </section>
 
       <section className="elements">
-        <ul className="elements__list" />
+        <ul className="elements__list">{listCards}</ul>
       </section>
     </main>
   );
