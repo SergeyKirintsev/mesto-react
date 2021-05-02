@@ -1,11 +1,13 @@
-import React from 'react';
+function Card({ card, onCardClick }) {
+  const handleClick = () => {
+    onCardClick(card);
+  };
 
-function Card({ card }) {
   return (
     <li className="elements__element">
       <button type="button" aria-label="Удалить" className="elements__trash-btn btn-hover" />
       <div className="elements__img-wrap">
-        <img src={card.link} alt={card.name} className="elements__img" />
+        <img onClick={handleClick} src={card.link} alt={card.name} className="elements__img" />
       </div>
       <div className="elements__description">
         <h2 className="elements__text block">{card.name}</h2>

@@ -1,15 +1,13 @@
-function ImagePopup(props) {
+function ImagePopup({ card, onClose }) {
+  const copyCard = Object.assign({}, card);
+
   return (
-    <div className="popup popup_img_view">
+    <div className={`popup popup_img_view ${card ? 'popup_is-opened' : ''}`}>
       <div className="popup__img-wrapper">
-        <button type="button" className="popup__close-btn btn-hover"></button>
+        <button onClick={onClose} type="button" className="popup__close-btn btn-hover" />
         <figure className="popup__figure">
-          <img
-            className="popup__image"
-            src="https://images.unsplash.com/photo-1612470858098-500d3550778e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1268&q=80"
-            alt="alt"
-          />
-          <figcaption className="popup__caption">caption</figcaption>
+          <img className="popup__image" src={copyCard.link} alt={copyCard.name} />
+          <figcaption className="popup__caption">{copyCard.name}</figcaption>
         </figure>
       </div>
     </div>

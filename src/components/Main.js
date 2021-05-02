@@ -2,10 +2,10 @@ import React from 'react';
 import api from '../utils/api';
 import Card from './Card';
 
-function Main({ onEditProfile, onEditAvatar, onAddPlace }) {
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
+function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
+  const [userName, setUserName] = React.useState('');
+  const [userDescription, setUserDescription] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
@@ -19,9 +19,11 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace }) {
       .catch((err) => {
         console.log('Один из промисов отклонен', err);
       });
-  });
+  }, []);
 
-  const listCards = cards.map((card) => <Card key={card._id} card={card} />);
+  const listCards = cards.map((card) => (
+    <Card key={card._id} card={card} onCardClick={onCardClick} />
+  ));
 
   return (
     <main className="content">
