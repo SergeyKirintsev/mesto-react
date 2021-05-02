@@ -30,7 +30,7 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace }) {
         <h2 className="elements__text block">{card.name}</h2>
         <div className="elements__like-wrap">
           <button type="button" aria-label="Нравится" className="elements__like-btn btn-hover" />
-          <span className="elements__like-count">25</span>
+          <span className="elements__like-count">{card.likes.length}</span>
         </div>
       </div>
     </li>
