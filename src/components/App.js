@@ -57,6 +57,7 @@ function App() {
         onClose={closeAllPopups}
         type={'edit_profile'}
         title={'Редактировать профиль'}
+        submitBtnCaption={'Сохранить'}
       >
         <section className="popup__section">
           <input
@@ -95,6 +96,7 @@ function App() {
         onClose={closeAllPopups}
         type={'add_card'}
         title={'Новое место'}
+        submitBtnCaption={'Создать'}
       >
         <section className="popup__section">
           <input
@@ -131,6 +133,7 @@ function App() {
         onClose={closeAllPopups}
         type={'avatar'}
         title={'Обновить аватар'}
+        submitBtnCaption={'Сохранить'}
       >
         <section className="popup__section">
           <input
@@ -167,6 +170,7 @@ function App() {
         onClose={closeAllPopups}
         type={'confirm'}
         title={'Вы уверены?'}
+        submitBtnCaption={'Да'}
       />
 
     </div>
