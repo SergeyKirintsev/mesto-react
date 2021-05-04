@@ -10,6 +10,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   const handleEditAvatarClick = () => {
@@ -32,6 +33,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsConfirmPopupOpen(false);
     setSelectedCard(null);
   };
 
@@ -160,17 +162,13 @@ function App() {
         </section>
       </PopupWithForm>
 
-      <div className="popup popup_confirm">
-        <div className="popup__container">
-          <button type="button" className="popup__close-btn btn-hover"></button>
-          <h2 className="popup__title">Вы уверены?</h2>
-          <form name="confirm" className="popup__form" noValidate>
-            <button type="submit" className="popup__form-submit btn-hover">
-              Да
-            </button>
-          </form>
-        </div>
-      </div>
+      <PopupWithForm
+        isOpen={isConfirmPopupOpen}
+        onClose={closeAllPopups}
+        type={'confirm'}
+        title={'Вы уверены?'}
+      />
+
     </div>
   );
 }
