@@ -5,6 +5,7 @@ import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import api from '../utils/api';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -12,6 +13,18 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState(null);
+
+  React.useEffect(() => {
+    api
+      .getUserInfo()
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        console.log('getUserInfo', err);
+      });
+  }, []);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -172,7 +185,6 @@ function App() {
         title={'Вы уверены?'}
         submitBtnCaption={'Да'}
       />
-
     </div>
   );
 }
