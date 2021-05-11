@@ -1,13 +1,17 @@
 import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card({ card, onCardClick }) {
+function Card({ card, onCardClick, onCardLike }) {
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
   const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
   const handleClick = () => {
     onCardClick(card);
+  };
+
+  const handleLikeClick = () => {
+    onCardLike(card);
   };
 
   return (
@@ -22,6 +26,7 @@ function Card({ card, onCardClick }) {
         <h2 className="elements__text block">{card.name}</h2>
         <div className="elements__like-wrap">
           <button
+            onClick={handleLikeClick}
             type="button"
             aria-label="Нравится"
             className={`elements__like-btn btn-hover ${isLiked ? 'elements__like-btn_active' : ''}`}

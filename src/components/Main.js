@@ -19,8 +19,18 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
       });
   }, []);
 
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
+  }
+
   const listCards = cards.map((card) => (
-    <Card key={card._id} card={card} onCardClick={onCardClick} />
+    <Card key={card._id} card={card} onCardClick={onCardClick} onCardLike={handleCardLike} />
   ));
 
   return (
