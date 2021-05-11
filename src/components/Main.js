@@ -19,6 +19,12 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
       });
   }, []);
 
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
+    });
+  }
+
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -30,7 +36,13 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
   }
 
   const listCards = cards.map((card) => (
-    <Card key={card._id} card={card} onCardClick={onCardClick} onCardLike={handleCardLike} />
+    <Card
+      key={card._id}
+      card={card}
+      onCardClick={onCardClick}
+      onCardLike={handleCardLike}
+      onCardDelete={handleCardDelete}
+    />
   ));
 
   return (
