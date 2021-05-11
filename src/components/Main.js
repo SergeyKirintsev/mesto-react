@@ -1,23 +1,21 @@
 import React from 'react';
 import api from '../utils/api';
 import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
-  const [userName, setUserName] = React.useState('');
-  const [userDescription, setUserDescription] = React.useState('');
-  const [userAvatar, setUserAvatar] = React.useState('');
+  const user = React.useContext(CurrentUserContext);
+
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([userData, cardsData]) => {
-        setUserName(userData.name);
-        setUserDescription(userData.about);
-        setUserAvatar(userData.avatar);
+    api
+      .getCards()
+      .then((cardsData) => {
         setCards(cardsData);
       })
       .catch((err) => {
-        console.log('Один из промисов отклонен', err);
+        console.log('getCards', err);
       });
   }, []);
 
@@ -29,12 +27,12 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
     <main className="content">
       <section className="profile">
         <div onClick={onEditAvatar} className="profile__avatar-wrapper">
-          <div className="profile__avatar" style={{ backgroundImage: `url(${userAvatar})` }} />
+          <div className="profile__avatar" style={{ backgroundImage: `url(${user.avatar})` }} />
           <div className="profile__avatar-overlay" />
         </div>
         <div className="profile__info">
           <div className="profile__row">
-            <h1 className="profile__name block">{userName}</h1>
+            <h1 className="profile__name block">{user.name}</h1>
             <button
               onClick={onEditProfile}
               type="button"
@@ -42,7 +40,7 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
               className="profile__edit-btn btn-hover"
             />
           </div>
-          <p className="profile__profession block">{userDescription}</p>
+          <p className="profile__profession block">{user.about}</p>
         </div>
 
         <button
