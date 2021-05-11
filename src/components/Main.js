@@ -4,7 +4,7 @@ import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
-  const user = React.useContext(CurrentUserContext);
+  const currentUser = React.useContext(CurrentUserContext);
 
   const [cards, setCards] = React.useState([]);
 
@@ -27,12 +27,15 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
     <main className="content">
       <section className="profile">
         <div onClick={onEditAvatar} className="profile__avatar-wrapper">
-          <div className="profile__avatar" style={{ backgroundImage: `url(${user.avatar})` }} />
+          <div
+            className="profile__avatar"
+            style={{ backgroundImage: `url(${currentUser.avatar})` }}
+          />
           <div className="profile__avatar-overlay" />
         </div>
         <div className="profile__info">
           <div className="profile__row">
-            <h1 className="profile__name block">{user.name}</h1>
+            <h1 className="profile__name block">{currentUser.name}</h1>
             <button
               onClick={onEditProfile}
               type="button"
@@ -40,7 +43,7 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, onCardClick }) {
               className="profile__edit-btn btn-hover"
             />
           </div>
-          <p className="profile__profession block">{user.about}</p>
+          <p className="profile__profession block">{currentUser.about}</p>
         </div>
 
         <button
