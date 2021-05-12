@@ -3,13 +3,13 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import ConfirmPopup from './ConfirmPopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
@@ -24,6 +24,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [idCardForDelete, setIdCardForDelete] = React.useState(null);
 
   React.useEffect(() => {
     api
@@ -36,10 +37,17 @@ function App() {
       });
   }, []);
 
-  function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id));
+  function handleCardDeleteAfterConfirm() {
+    setIsLoading(true);
+    api.deleteCard(idCardForDelete).then(() => {
+      setCards((state) => state.filter((c) => c._id !== idCardForDelete));
+      closeAllPopups();
     });
+  }
+
+  function handleCardDelete(card) {
+    setIdCardForDelete(card._id);
+    setIsConfirmPopupOpen(true);
   }
 
   function handleCardLike(card) {
@@ -86,6 +94,7 @@ function App() {
     setIsConfirmPopupOpen(false);
     setSelectedCard(null);
     setIsLoading(false);
+    setIdCardForDelete(null);
   };
 
   const handleUpdateUser = (user) => {
@@ -167,12 +176,11 @@ function App() {
           isLoading={isLoading}
         />
 
-        <PopupWithForm
+        <ConfirmPopup
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
-          type={'confirm'}
-          title={'Вы уверены?'}
-          submitBtnCaption={'Да'}
+          onConfirmDeleteCard={handleCardDeleteAfterConfirm}
+          isLoading={isLoading}
         />
       </CurrentUserContext.Provider>
     </div>
