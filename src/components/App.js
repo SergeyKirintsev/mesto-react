@@ -8,11 +8,16 @@ import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
+    false,
+  );
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(
+    false,
+  );
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
@@ -64,6 +69,18 @@ function App() {
       });
   };
 
+  const handleUpdateAvatar = ({ avatar }) => {
+    api
+      .setUserAvatar(avatar)
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log('handleUpdateAvatar', err);
+      });
+  };
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -86,49 +103,18 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           type={'add_card'}
           title={'Новое место'}
           submitBtnCaption={'Создать'}
-        >
-          <section className="popup__section">
-            <input
-              id="card-name"
-              type="text"
-              name="name"
-              className="popup__input popup__input_type_img-name"
-              value=""
-              placeholder="Название"
-              required
-              minLength="2"
-              maxLength="30"
-              aria-label="Имя"
-            />
-            <span className="popup__input-error card-name-error"></span>
-          </section>
-          <section className="popup__section">
-            <input
-              id="card-link"
-              type="url"
-              name="link"
-              className="popup__input popup__input_type_img-link"
-              value=""
-              placeholder="Ссылка на картинку"
-              required
-              aria-label="Ссылка на картинку"
-            />
-            <span className="popup__input-error card-link-error"></span>
-          </section>
-        </PopupWithForm>
-
-        <PopupWithForm
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          type={'avatar'}
-          title={'Обновить аватар'}
-          submitBtnCaption={'Сохранить'}
         >
           <section className="popup__section">
             <input
