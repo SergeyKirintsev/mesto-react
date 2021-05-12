@@ -20,18 +20,18 @@ function EditAvatarPopup(props) {
       submitBtnCaption={'Сохранить'}
       onSubmit={handleSubmit}
     >
-      <section class="popup__section">
+      <section className="popup__section">
         <input
           ref={avatarLink}
           id="avatar-link"
           type="url"
           name="avatar"
-          class="popup__input"
+          className="popup__input"
           placeholder="Ссылка на аватар"
           required
           aria-label="Ссылка на аватар"
         />
-        <span class="popup__input-error avatar-link-error"></span>
+        <span className="popup__input-error avatar-link-error"></span>
       </section>
     </PopupWithForm>
   );

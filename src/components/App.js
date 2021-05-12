@@ -9,6 +9,7 @@ import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
@@ -109,6 +110,18 @@ function App() {
       });
   };
 
+  const handleAddPlaceSubmit = (place) => {
+    api
+      .createCard(place)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log('handleAddPlaceSubmit', err);
+      });
+  };
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -140,42 +153,11 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
 
-        <PopupWithForm
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          type={'add_card'}
-          title={'Новое место'}
-          submitBtnCaption={'Создать'}
-        >
-          <section className="popup__section">
-            <input
-              id="card-name"
-              type="text"
-              name="name"
-              className="popup__input popup__input_type_img-name"
-              value=""
-              placeholder="Название"
-              required
-              minLength="2"
-              maxLength="30"
-              aria-label="Имя"
-            />
-            <span className="popup__input-error card-name-error"></span>
-          </section>
-          <section className="popup__section">
-            <input
-              id="card-link"
-              type="url"
-              name="link"
-              className="popup__input popup__input_type_img-link"
-              value=""
-              placeholder="Ссылка на картинку"
-              required
-              aria-label="Ссылка на картинку"
-            />
-            <span className="popup__input-error card-link-error"></span>
-          </section>
-        </PopupWithForm>
+          onAddPlaceSubmit={handleAddPlaceSubmit}
+        />
 
         <PopupWithForm
           isOpen={isConfirmPopupOpen}

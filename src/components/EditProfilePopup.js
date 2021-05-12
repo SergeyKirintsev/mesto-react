@@ -33,8 +33,6 @@ function EditProfilePopup(props) {
 
   return (
     <PopupWithForm
-      // isOpen={isEditProfilePopupOpen}
-      // onClose={closeAllPopups}
       {...props}
       type={'edit_profile'}
       title={'Редактировать профиль'}
