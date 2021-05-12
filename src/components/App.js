@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -51,6 +52,18 @@ function App() {
     setSelectedCard(null);
   };
 
+  const handleUpdateUser = (user) => {
+    api
+      .setUserInfo(user)
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log('handleUpdateUser', err);
+      });
+  };
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -67,44 +80,11 @@ function App() {
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-        <PopupWithForm
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          type={'edit_profile'}
-          title={'Редактировать профиль'}
-          submitBtnCaption={'Сохранить'}
-        >
-          <section className="popup__section">
-            <input
-              id="name-profile"
-              type="text"
-              name="name"
-              className="popup__input popup__input_type_name"
-              value=""
-              placeholder="Имя"
-              required
-              minLength="2"
-              maxLength="40"
-              aria-label="Имя"
-            />
-            <span className="popup__input-error name-profile-error" />
-          </section>
-          <section className="popup__section">
-            <input
-              id="job-profile"
-              type="text"
-              name="about"
-              className="popup__input popup__input_type_job"
-              value=""
-              placeholder="Увлечение/работа"
-              required
-              minLength="2"
-              maxLength="200"
-              aria-label="О себе"
-            />
-            <span className="popup__input-error job-profile-error" />
-          </section>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
