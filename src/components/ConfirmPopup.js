@@ -14,6 +14,7 @@ function ConfirmPopup(props) {
       type={'confirm'}
       title={'Вы уверены?'}
       submitBtnCaption={'Да'}
+      submitBtnCaptionIsLoading={'Удаление...'}
       onSubmit={handleSubmit}
     />
   );
