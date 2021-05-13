@@ -10,7 +10,7 @@ function EditProfilePopup(props) {
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, props.isOpen]);
 
   const handleChangeName = (evt) => {
     setName(evt.target.value);
@@ -46,7 +46,7 @@ function EditProfilePopup(props) {
           type="text"
           name="name"
           className="popup__input popup__input_type_name"
-          defaultValue={name}
+          value={name || ''}
           placeholder="Имя"
           required
           minLength="2"
@@ -62,7 +62,7 @@ function EditProfilePopup(props) {
           type="text"
           name="about"
           className="popup__input popup__input_type_job"
-          defaultValue={description}
+          value={description || ''}
           placeholder="Увлечение/работа"
           required
           minLength="2"
