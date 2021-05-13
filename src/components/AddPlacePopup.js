@@ -31,6 +31,7 @@ function AddPlacePopup(props) {
       <section className="popup__section">
         <input
           onChange={handleChange}
+          value={place.name || ''}
           id="card-name"
           type="text"
           name="name"
@@ -46,6 +47,7 @@ function AddPlacePopup(props) {
       <section className="popup__section">
         <input
           onChange={handleChange}
+          value={place.link || ''}
           id="card-link"
           type="url"
           name="link"
