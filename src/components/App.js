@@ -27,13 +27,13 @@ function App() {
   const [idCardForDelete, setIdCardForDelete] = React.useState(null);
 
   React.useEffect(() => {
-    api
-      .getCards()
-      .then((cardsData) => {
+    Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData);
         setCards(cardsData);
       })
       .catch((err) => {
-        console.log('getCards', err);
+        console.log('Promise.all', err);
       });
   }, []);
 
@@ -71,17 +71,6 @@ function App() {
         console.log('handleCardLike', err);
       });
   }
-
-  React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log('getUserInfo', err);
-      });
-  }, []);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
